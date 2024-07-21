@@ -37,7 +37,7 @@ jobs:
                 # config: defaultCommandTimeout=100000,pageLoadTimeout=100000
                 # env: grepTags=@smoke @reg
                 record: false
-                parallel: false
-                ci-build-id: ${{ needs.prepare.outputs.uuid }}
-                tag: cypressrun
+                # parallel: false
+                # ci-build-id: ${{ needs.prepare.outputs.uuid }}
+                # tag: cypressrun
                 spec: "cypress/e2e/**/*.js"
