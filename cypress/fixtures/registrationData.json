@@ -1,0 +1,14 @@
+{
+ 
+  "name": {
+    "firstName": "self",
+    "secondName": "Testing"
+  },
+  "telephone": "8754447686",
+  "password": {
+    "password" : "cypress123!!"
+  },
+
+  "accountCreated": "Your Account Has Been Created!"
+  
+}

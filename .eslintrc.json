@@ -1,0 +1,31 @@
+{
+    "env": {
+        "browser": true,                                //code runs in the browser 
+        "node": true,                                   //code runs in node.js
+        "es2021": true,                                 //Use ECMAScript 2021 features
+        "cypress/globals": true                         //Recognize cypress global variables
+    },
+    "extends": [
+        "eslint:recommended",                           //Basic recommended ESLint rules
+        "plugin:cypress/recommended",                   //Recommended Cypress rules
+        "plugin:chai-friendly/recommended"              //Recommended rules for chai, a popular assertion library used with cypress
+    ], 
+    "parserOptions": {
+        "ecmaVersion": "latest",                        //Use the largest ECMAScript features
+        "sourceType": "module"                          //Enable ES6 module syntax 
+    },
+    "rules": {
+        "cypress/no-assigning-return-values": "error",  //Prevent assigning cypress command return values
+        "cypress/no-unnecessary-waiting": "warn",       //Warn about unnecessary cy.wait() calls
+        "cypress/assertion-before-screenshot": "warn",  //Ensure assertions are made before screenshots
+        "cypress/no-force": "warn",                     //Warn about forcing actions (eg., {force:true})
+        "cypress/no-async-tests": "error",              //Disallow async tests in cypress
+        "cypress/no-pause": "error",                    //Disallow using cy.pause()
+        "no-console": "warn",                           //Warn when console.log is used 
+        "semi": ["error", "always"],                    //Ensure semicolons are used
+        "quotes": ["error", "double"],                  //Enforce double quotes
+        "indent": ["error", 2],                         //Enforce 2-space indentation
+        "eqeqeq": "error",                              //Enforce strict equality
+        "no-unused-vars": "warn"                        //Warn about unused variables 
+    }
+}
