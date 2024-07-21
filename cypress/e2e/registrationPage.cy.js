@@ -29,6 +29,7 @@ describe('registration test case', () => {
         checkBoxCheck({ locator: checkBox });
         forceClick({ element: continueBtn });
         verifyAccountCreated({ Element: accountCreatedLoc, value: accountCreated })
+        throw new Error("Hi");
 
     })
     
