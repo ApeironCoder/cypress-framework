@@ -6,9 +6,7 @@ on:
 jobs:
   # single job that generates and outputs a common id
   prepare:
-    runs-on: ubuntu-latest
-    outputs:
-      uuid: ${{ steps.uuid.outputs.value }}
+    runs-on: label1
     steps:
       - name: Generate unique ID
         id: uuid
