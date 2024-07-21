@@ -31,15 +31,22 @@ jobs:
     #     run: npx cypress run 
     
       - name: Upload Screenshots
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v2
         if: always()
         with:
             name: screenshot
             path: cypress/screenshots/**
 
       - name: Upload Videos
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v2
         if: always()
         with:
             name: videos
             path: cypress/videos/**
+
+      - name: Upload mochawesome report
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+            name: mochawesome
+            path: cypress/results/mochawesome

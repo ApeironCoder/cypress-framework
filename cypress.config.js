@@ -20,6 +20,11 @@ module.exports = defineConfig({
   viewportHeight : 1080,
   viewportWidth: 1920, 
 
+  reporter: "cypress-multi-reporters",
+  reporterOptions: {
+    configFile: "reporter-config.json",
+  },
+
   //Timeouts
   defaultCommandTimeout : 5000, //Time, in milliseconds, to wait untill most DOM based commands are considered timed out.
 
