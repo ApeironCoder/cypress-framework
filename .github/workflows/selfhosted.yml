@@ -16,9 +16,13 @@ jobs:
       # Install NPM dependencies, cache them correctly
       # and run all Cypress test 
       # sudo apt-get install -y libnss3 libgconf-2-4 libatk1.0-0 libatk-bridge2.0-0 libcups2 libxcomposite1 libxdamage1 libxrandr2 libgbm1 libasound2 libgtk-3-0 libpango1.0-0 libx11-xcb1 libxss1
+    #   - name: Cypress run
+    #     uses: cypress-io/github-action@v5 
+    #     env: 
+    #       DEBUG: '@cypress/github-action'
+    #     with:
+    #       build: npm run test:all
+      - name: Install NPM dependencies
+        run: npm install
       - name: Cypress run
-        uses: cypress-io/github-action@v5 
-        env: 
-          DEBUG: '@cypress/github-action'
-        with:
-          build: npm run test:all
+        run: npx cypress run --no-sandbox --disable-gpu
