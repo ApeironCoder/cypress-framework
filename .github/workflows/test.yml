@@ -4,44 +4,40 @@ on:
   workflow_dispatch:
 
 jobs:
-  cypress:
-    runs-on: ubuntu-latest
+    prepare:
+        runs-on: ubuntu-latest
+        outputs:
+            uuid: ${{ steps.uuid.outputs.value }}
+        steps:
+          - name: Generate unique ID
+            id: uuid
+            # take the current commit + timestamp together
+            # the typical value would be something like
+            # "sha-5d3fe...35d3-time-1620841214"
+            run: echo "::set-output name=value::sha-$GITHUB_SHA-time-$(date +"%s")"
 
-    services:
-      docker:
-        image: docker:19.03.12
-        options: --privileged
-        ports:
-          - 127.0.0.1:2375:2375
-        env:
-          DOCKER_TLS_CERTDIR: ''
-        volumes:
-          - /var/run/docker.sock:/var/run/docker.sock
+          - name: Print unique ID
+            run: echo "generated id ${{ steps.uuid.outputs.value }}"
+    cypress:
+        runs-on: ubuntu-latest
+        needs: ["prepare"]
+        container:
+            image: cypress/browsers:node16.16.0-chrome107-ff107-edge
+        steps:
+          - name: Checkout repository
+            uses: actions/checkout@v2
 
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
-
-    - name: Log in to DockerHub
-      uses: docker/login-action@v1
-      with:
-        username: ${{ secrets.DOCKER_HUB_USERNAME }}
-        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-
-    - name: Build Docker Image
-      run: docker-compose build
-
-    - name: Run Docker Compose
-      run: docker-compose up -d
-
-    - name: Wait for services to be ready
-      run: sleep 30  # Adjust this sleep time based on your services' startup time
-
-    - name: Run Cypress tests
-      run: docker-compose run cypress
-
-    - name: Shut down Docker Compose
-      run: docker-compose down
+          - name: Cypress run
+            id: cypress-run
+            uses: cypress-io/github-action@v4
+            with:
+                start: npm run
+                browser: chrome
+                wait-on-timeout: 300
+                # config: defaultCommandTimeout=100000,pageLoadTimeout=100000
+                # env: grepTags=@smoke @reg
+                record: true
+                parallel: true
+                ci-build-id: ${{ needs.prepare.outputs.uuid }}
+                tag: cypressrun
+                spec: "cypress/e2e/**/*.js"
