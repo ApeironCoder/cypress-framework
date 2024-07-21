@@ -5,15 +5,44 @@ on:
 
 jobs:
   # single job that generates and outputs a common id
-  prepare:
-    runs-on: label2
-    steps:
-        - name: Generate unique ID
-          id: uuid
-          # take the current commit + timestamp together
-          # the typical value would be something like
-          # "sha-5d3fe...35d3-time-1620841214"
-          run: echo "::set-output name=value::sha-$GITHUB_SHA-time-$(date +"%s")"
-  
-        - name: Print unique ID
-          run: echo "generated id ${{ steps.uuid.outputs.value }}"
+    prepare:
+        runs-on: label2
+        outputs:
+            uuid: ${{ steps.uuid.outputs.value }}
+        steps:
+          - name: Generate unique ID
+            id: uuid
+            # take the current commit + timestamp together
+            # the typical value would be something like
+            # "sha-5d3fe...35d3-time-1620841214"
+            run: echo "::set-output name=value::sha-$GITHUB_SHA-time-$(date +"%s")"
+    
+          - name: Print unique ID
+            run: echo "generated id ${{ steps.uuid.outputs.value }}"
+
+    cypress-run:
+        needs: ["prepare"]
+        runs-on: label2
+        container:
+            image: cypress/browsers:node16.16.0-chrome107-ff107-edge
+        steps:
+          - name: Get current date time
+            id: date
+            run: echo "::set-output name=date::$(date +'%Y-%m-%d %H:%M')"
+
+          - name: Checkout 
+            uses: actions/checkout@v2
+
+          - name: Cypress run
+            id: cypress-run
+            uses: cypress-io/github-action@v4
+            with:
+                start: npm run
+                browser: chrome
+                wait-on-timeout: 300
+                # config: defaultCommandTimeout=100000,pageLoadTimeout=100000
+                record: false
+                parallel: true
+                ci-build-id: ${{ needs.prepare.outputs.uuid }}
+                tag: cypress-run
+                spec: "cypress/e2e/**/*.js"
