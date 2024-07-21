@@ -6,6 +6,10 @@ on:
 jobs: 
   cypress-run: 
     runs-on: label2
+    strategy:
+      fail-fast: false
+      matrix:
+        containers: [1]
     steps: 
       - name: Checkout 
         uses: actions/checkout@v3 
