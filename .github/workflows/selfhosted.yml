@@ -25,4 +25,4 @@ jobs:
       - name: Install NPM dependencies
         run: npm install
       - name: Cypress run
-        run: npx cypress run --no-sandbox --disable-gpu
+        run: npx cypress run 
