@@ -18,10 +18,8 @@ jobs:
       # sudo apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
       - name: Cypress run
         uses: cypress-io/github-action@v5 
-        env: 
-          DEBUG: '@cypress/github-action'
         with:
-          build: npm run test:all
+          start: npm run
     #   - name: Install NPM dependencies
     #     run: npm install
     #   - name: Cypress run
