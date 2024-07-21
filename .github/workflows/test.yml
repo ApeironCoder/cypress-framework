@@ -23,6 +23,8 @@ jobs:
     cypress-run:
         needs: ["prepare"]
         runs-on: label2
+        container:
+            image: cypress/browsers:node16.16.0-chrome107-ff107-edge
         steps:
           - name: Get current date time
             id: date
