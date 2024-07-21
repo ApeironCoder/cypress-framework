@@ -24,23 +24,31 @@ jobs:
         needs: ["prepare"]
         runs-on: label2
         steps:
-          - name: Get current date time
-            id: date
-            run: echo "::set-output name=date::$(date +'%Y-%m-%d %H:%M')"
+              - name: Install Docker
+                run: |
+                    curl -fsSL https://get.docker.com -o get-docker.sh
+                    sh get-docker.sh
 
-          - name: Checkout 
-            uses: actions/checkout@v2
+              - name: Get current date time
+                id: date
+                run: echo "::set-output name=date::$(date +'%Y-%m-%d %H:%M')"
 
-          - name: Cypress run
-            id: cypress-run
-            uses: cypress-io/github-action@v4
-            with:
-                start: npm run
-                browser: chrome
-                wait-on-timeout: 300
-                # config: defaultCommandTimeout=100000,pageLoadTimeout=100000
-                record: false
-                parallel: true
-                ci-build-id: ${{ needs.prepare.outputs.uuid }}
-                tag: cypress-run
-                spec: "cypress/e2e/**/*.js"
+              - name: Checkout
+                uses: actions/checkout@v2
+
+              - name: Set up Cypress container
+                uses: docker://cypress/browsers:node16.16.0-chrome107-ff107-edge
+
+              - name: Cypress run
+                id: cypress-run
+                uses: cypress-io/github-action@v4
+                with:
+                    start: npm run
+                    browser: chrome
+                    wait-on-timeout: 300
+                    # config: defaultCommandTimeout=100000,pageLoadTimeout=100000
+                    record: false
+                    parallel: true
+                    ci-build-id: ${{ needs.prepare.outputs.uuid }}
+                    tag: cypress-run
+                    spec: "cypress/e2e/**/*.js"
