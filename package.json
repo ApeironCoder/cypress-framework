@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "combine-reports": "mochawesome-merge ./cypress/results/mochawesome/*.json > ./report/generatedJsonReport/mochawesome-merge-output.json",
     "test:all": "npx cypress run"
   },
   "author": "",

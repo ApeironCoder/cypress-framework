@@ -5,7 +5,7 @@
     "reportFilename": "[status]_[datetime]-[name]-report",
     "timestamp": "longDate",
     "overwrite": false,
-    "html": false,
+    "html": true,
     "json": true,
     "showPending": true,
     "showSkipped": true
