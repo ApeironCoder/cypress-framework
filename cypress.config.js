@@ -15,7 +15,6 @@ module.exports = defineConfig({
   //Videos
   video : true,                     //Whether cypress will capture a video of the tests run with cypress run.
   videosFolder : 'cypress/videos',
-  videoCompression : false,        //the quality setting for the video compression, in constant rate factor(CRF)
 
   //Viewport
   viewportHeight : 1080,
